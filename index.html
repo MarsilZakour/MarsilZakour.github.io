@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marsil Zakour — 3D Computer Vision, TUM</title>
+<meta name="description" content="Marsil Zakour — Ph.D. candidate in 3D computer vision at the Technical University of Munich. Hand–object interaction, multi-view hand mesh recovery, differentiable optimization, real-time perception systems.">
+<style>
+  :root{
+    --ink:#1a1a1a; --muted:#5b6470; --line:#e6e8eb; --accent:#3070b3; --accent-d:#22527f;
+    --bg:#ffffff; --soft:#f6f8fa; --maxw:820px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-d);text-decoration:underline}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  header{padding:52px 0 28px;border-bottom:1px solid var(--line)}
+  .head{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+  .head img{width:118px;height:auto;border-radius:12px;border:1px solid var(--line)}
+  h1{font-size:30px;margin:0 0 4px;font-weight:750;letter-spacing:-.01em}
+  .role{color:var(--muted);font-size:16.5px;margin:0 0 12px}
+  .links{display:flex;gap:14px;flex-wrap:wrap;font-size:15.5px;font-weight:600}
+  section{padding:34px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:22px;font-weight:720;margin:0 0 16px;letter-spacing:-.01em}
+  p{margin:0 0 14px}
+  ul{margin:0 0 14px;padding-left:22px}
+  li{margin-bottom:10px}
+  .pub{margin-bottom:16px}
+  .pub .t{font-weight:650}
+  .pub .v{color:var(--muted);font-size:15px}
+  .pub .l{font-size:15px}
+  .tag{display:inline-block;background:var(--soft);border:1px solid var(--line);border-radius:999px;
+    padding:1px 10px;font-size:13px;color:var(--muted);margin-left:6px;vertical-align:1px}
+  .note{color:var(--muted);font-size:15px}
+  footer{padding:28px 0 56px;color:var(--muted);font-size:14px}
+  @media(max-width:560px){.head{gap:16px}h1{font-size:25px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="head">
+      <img src="assets/photo.jpg" alt="Marsil Zakour">
+      <div>
+        <h1>Marsil Zakour</h1>
+        <p class="role">Ph.D. candidate in 3D Computer Vision · Chair of Media Technology, Technical University of Munich</p>
+        <nav class="links">
+          <a href="mailto:zakourmarsil@gmail.com">Email</a>
+          <a href="https://scholar.google.com/citations?user=WC_55Y0AAAAJ">Google Scholar</a>
+          <a href="https://github.com/marcilzakour">GitHub</a>
+          <a href="https://www.ce.cit.tum.de/en/lmt/team/mitarbeiter/zakour-marsil/">TUM page</a>
+          <a href="assets/cv.pdf">CV (PDF)</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>About</h2>
+    <p>I work on 3D perception of <b>hand–object interaction</b>: multi-view hand mesh recovery,
+      6-DoF object pose, contact modelling, and the capture systems and datasets behind them.
+      My recent work moves the learning into 2D image evidence and leaves the 3D lifting to
+      <b>parameter-free differentiable solvers</b> — compact models that are accurate, fast,
+      and generalize across camera setups.</p>
+    <p>I build the systems end to end: an 8-camera capture rig calibrated to sub-pixel accuracy,
+      auto-annotation pipelines, and a real-time multi-view hand–object tracking system running on
+      a single consumer GPU. Before the Ph.D.: ACM-ICPC <b>World Finalist (Beijing 2018)</b> and
+      years of competitive-programming coaching and judging.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>First-author work</h2>
+    <div class="pub">
+      <div class="t">Learn 2D, Solve 3D: UA-Fit, an Uncertainty-Weighted Analytical Solver for Multi-view Hand Mesh Recovery</div>
+      <div class="v">M. Zakour, C. Patsch, M. Piccolrovazzi, Y. Wu, E. Steinbach — ECCV 2026, HANDS Workshop</div>
+      <div class="l"><a href="https://marcilzakour.github.io/ua-fit/">project page</a> ·
+        <a href="https://github.com/marcilzakour/ua-fit-code">code</a> ·
+        <a href="https://github.com/marcilzakour/parafit">solver library (parafit)</a></div>
+    </div>
+    <div class="pub">
+      <div class="t">parafit — a pluggable analytical solver for parametric model fitting</div>
+      <div class="v">Standalone open-source library: batched differentiable Levenberg–Marquardt with analytic Jacobians
+        (≈12–16× faster than autodiff) for hands, bodies, and 6-DoF objects.</div>
+      <div class="l"><a href="https://github.com/marcilzakour/parafit">github.com/marcilzakour/parafit</a></div>
+    </div>
+    <div class="pub">
+      <div class="t">HOIsim: Synthesizing Realistic 3D Human–Object Interaction Data for Human Activity Recognition</div>
+      <div class="v">M. Zakour, A. Mellouli, R. Chaudhari — IEEE RO-MAN 2021</div>
+    </div>
+    <p class="note">Further first-author work (a multi-view hand–object interaction dataset, a
+      multi-expert fusion method) is currently under peer review and will be listed here on acceptance.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Co-authored work</h2>
+    <p>10+ further peer-reviewed papers with the TUM Human Activity Understanding group at venues
+      including <b>ICCV, IROS, IEEE RA-L, ICASSP</b> —
+      <a href="https://scholar.google.com/citations?user=WC_55Y0AAAAJ">full list on Google Scholar</a>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Systems</h2>
+    <ul>
+      <li><b>Real-time hand–object tracker</b> — live multi-view RGB 6-DoF hand and object tracking on a
+        single consumer GPU: detection → triangulation → optimization-in-the-loop.</li>
+      <li><b>Multi-view capture &amp; annotation pipeline</b> — 8-camera rig, 0.8 px calibration,
+        MANO-based auto-annotation with contact refinement; the data engine behind our dataset work.</li>
+      <li><b>HOIsim</b> — simulator generating realistic synthetic 3D human–object interaction data
+        for perception training and sim-to-real studies.</li>
+    </ul>
+    <p class="note">Demo videos are available on request and linked from my CV.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Teaching &amp; supervision</h2>
+    <ul>
+      <li><a href="https://www.ce.cit.tum.de/lmt/lehre/projektpraktikum-project-lab-human-activity-understanding/">Project
+        Lab: Human Activity Understanding</a> — M.Sc. project course at TUM; supervising student teams
+        building live perception demos every semester since 2022.</li>
+      <li>Supervision of B.Sc./M.Sc. theses and student research projects in computer vision and machine learning.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Marsil Zakour · Munich, Germany · <a href="mailto:zakourmarsil@gmail.com">zakourmarsil@gmail.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
