@@ -1,3 +1,3 @@
-# marcilzakour.github.io
+# marsilzakour.github.io
 
 Personal academic page of Marsil Zakour.
