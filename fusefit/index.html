@@ -61,7 +61,6 @@
   @media(max-width:680px){.grid,.kpis{grid-template-columns:1fr}h1{font-size:25px}}
 </style></head><body>
 <header><div class="wrap"><h1>FuseFit<span class="sub">Reliability-Aware Fusion of Frozen Hand Experts</span></h1>
-<div class="authors">Marsil Zakour</div>
 <div class="affil">Technical University of Munich &middot; Chair of Media Technology &middot; MIRMI</div>
 <div class="badges"><span class="badge disabled">&#128196; Paper (coming soon)</span><span class="badge disabled">&#128187; Code (coming soon)</span><a class="badge alt" href="https://github.com/MarsilZakour/parafit">&#128295; Solver library (parafit)</a></div></div></header>
 <section><div class="wrap"><figure><img src="img/teaser.png" alt="The FuseFit loop"><figcaption><b>The FuseFit loop.</b> Frozen experts (grey) emit 2D keypoints in every view, and a shared backbone extracts image features. The fusion module (red) attends across experts, then joints, and returns a fused keypoint, a per-joint precision, and a shape estimate. An analytic Levenberg&ndash;Marquardt solver (green) fits MANO pose and translation at the mean shape. The fitted mesh (amber) is reprojected into every view and becomes the consensus the next round reads, for <i>T</i> rounds.</figcaption></figure></div></section>
