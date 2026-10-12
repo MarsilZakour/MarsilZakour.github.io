@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hand-driven physical twins of deformable objects</title>
+<style>
+:root{--fg:#1d2433;--mut:#5b6577;--acc:#2f5fb3;--bg:#fff;--card:#f5f7fb}
+*{box-sizing:border-box}body{margin:0;font:17px/1.6 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
+main{max-width:980px;margin:0 auto;padding:48px 20px 80px}
+h1{font-size:2.1rem;line-height:1.2;margin:0 0 8px}h2{margin:2.6em 0 .6em;font-size:1.45rem;border-bottom:2px solid var(--card);padding-bottom:.2em}
+.by{color:var(--mut);margin-bottom:1.4em}.badge{display:inline-block;background:#fff3cd;color:#7a5b00;border-radius:6px;padding:2px 10px;font-size:.85rem;font-weight:600}
+figure{margin:1.4em 0}figure img{width:100%;height:auto;border:1px solid #e3e7ef;border-radius:8px}
+figcaption{color:var(--mut);font-size:.92rem;margin-top:.5em}
+table{border-collapse:collapse;margin:1em auto;font-size:.95rem}th,td{padding:5px 14px;text-align:right}th:first-child,td:first-child{text-align:left}
+thead th{border-top:2px solid var(--fg);border-bottom:1px solid var(--fg)}tbody tr:last-child td{border-bottom:2px solid var(--fg)}
+tr.ours td{font-weight:700;background:var(--card)}tr.floor td{color:var(--mut);font-style:italic}
+.abs{background:var(--card);padding:18px 22px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.note{color:var(--mut);font-size:.92rem}
+</style></head><body><main>
+<h1>Hand-driven physical twins of deformable objects from many multi-view clips</h1>
+<div class="by">Marsil Zakour &middot; Technical University of Munich</div>
+
+<figure><img src="img/teaser.png" alt="Pipeline overview">
+<figcaption><b>Pipeline.</b> (1) Per-clip Gaussian fits provide labels to fine-tune a pretrained matcher (adapter fine-tuning) for dense surface correspondence. (2) Clips are registered into one global canonical model with deformation kernels, and a feed-forward hand-object model with a joint solver reconstructs the scene. (3) A graph-network student learns hand-driven dynamics. All panels are real model outputs on our eight-camera capture of a plush toy.</figcaption></figure>
+
+<h2>Abstract</h2>
+<p class="abs">Physical digital twins of deformable objects can be reconstructed from multi-view video of hands manipulating them, but current methods calibrate one twin per short sequence and couple the hands to the object through contacts that stay fixed for the whole sequence. Unscripted manipulation breaks both assumptions: the same object appears in many short clips that are not connected in time, and the hands grasp, release, push and re-grasp it. We build a hand-driven physical twin of a deformable object learned from many multi-view clips. First, all clips are aligned to one shared canonical model: a pretrained backbone with lightweight adapters is fine-tuned for dense surface correspondence on labels rendered from per-clip Gaussian fits, and a global fit shares geometry, appearance and deformation kernels across clips. Second, hand-driven dynamics are built on this canonical model with contact that changes over time. On a new eight-camera tabletop capture of a plush toy with 26 clips, the shared canonical model agrees across clips to 2.1&nbsp;mm (median) against 3.4&nbsp;mm for pairwise non-rigid merging and 168&nbsp;mm for ICP, and fine-tuning raises correspondence accuracy within 1&nbsp;cm on held-out clips from 68.9% to 80.6%. An error decomposition shows that the calibrated physics follows held-out grasp-lift-hold clips once the contact state is known, and identifies contact-state inference from hand motion as the main open problem.</p>
+
+<h2>Results on the pot plushy</h2>
+<p class="note">Capture: 8 cameras (RGB + IR stereo, 30&nbsp;Hz), one plush toy manipulated by a person for five minutes, cut into 26 usable clips. Single take, single object: results are preliminary and the setup will be extended.</p>
+
+<h3>Multi-clip alignment</h3>
+<figure><img src="img/alignment.png" alt="Alignment">
+<figcaption>Colours encode canonical coordinates. Per-clip canonical frames disagree across clips; in the shared model, lid, stick and body receive the same colours in every clip.</figcaption></figure>
+<div class="grid"><div>
+<table><thead><tr><th>Alignment of 6 clips</th><th>Median (mm) &darr;</th><th>&lt;10&nbsp;mm (%) &uarr;</th></tr></thead><tbody>
+<tr><td>None (per-clip frames)</td><td>203.4</td><td>0.0</td></tr>
+<tr><td>ICP</td><td>167.9</td><td>0.0</td></tr>
+<tr><td>Features, rigid sync.</td><td>5.3</td><td>82.8</td></tr>
+<tr><td>Features, non-rigid</td><td>3.4</td><td>87.2</td></tr>
+<tr class="ours"><td>Shared model (ours)</td><td>2.1</td><td>95.2</td></tr>
+<tr class="floor"><td>Within-clip floor</td><td>0.8&ndash;1.3</td><td>97.3&ndash;98.8</td></tr></tbody></table>
+<p class="note">Cross-clip consistency: distance in the shared canonical frame between two observations of a point tracked across a clip boundary (independent multi-view tracks).</p></div>
+<div>
+<table><thead><tr><th>PCK (%) &uarr;</th><th>5 mm</th><th>10 mm</th><th>20 mm</th></tr></thead><tbody>
+<tr><td>Held-out clips, frozen</td><td>45.5</td><td>68.9</td><td>83.3</td></tr>
+<tr class="ours"><td>Held-out clips, fine-tuned</td><td>58.7</td><td>80.6</td><td>91.6</td></tr>
+<tr><td>Held-out cameras, frozen</td><td>38.4</td><td>61.2</td><td>78.3</td></tr>
+<tr class="ours"><td>Held-out cameras, fine-tuned</td><td>52.2</td><td>76.6</td><td>90.7</td></tr></tbody></table>
+<p class="note">Dense correspondence, same head and training in both rows; mean of three seeds (std &le; 0.4 points).</p></div></div>
+<p class="note">Cost: sharing one model across all clips lowers object PSNR from 27.5&nbsp;dB (independent per-clip fits) to 24.7&nbsp;dB.</p>
+
+<h2>Videos</h2>
+<p class="note">Real outputs on the pot plushy capture; clips were rendered by earlier checkpoints of the pipeline. The feed-forward reconstructions use no per-clip fitted parameters.</p>
+
+<h3>Hand-driven deformation</h3>
+<p class="note">Held-out windows (about 2 s), half speed, one of the eight cameras. Panels: input, then rendered colour with the hand mesh (transparent), rendered depth, normals, dense global correspondences and kernel ellipsoids, and the student's rendered colour and kernels, driven only by the recorded hands. Every panel except the input is a rendering. The student never saw these clips.</p>
+<video src="vid/grid_c12.mp4?v=3" controls loop muted preload="metadata" width="100%"></video>
+<p class="note">Press from the top with both hands, then release (error at window end: student 3.5 mm vs 19.3 mm for a frozen shape).</p>
+<video src="vid/grid_c13.mp4?v=3" controls loop muted preload="metadata" width="100%"></video>
+<p class="note">Sideways squeeze, release, shape recovers (3.8 mm vs 30.5 mm).</p>
+<video src="vid/grid_c24.mp4?v=3" controls loop muted preload="metadata" width="100%"></video>
+<p class="note">A hand grabs the spoon and turns the pot by it. Here the student is only marginally better than a frozen shape because the non-rigid change is small.</p>
+
+<h3>One clip, all modalities</h3>
+<p class="note">Same clip, one of the eight cameras. Top row: the input (only non-rendered panel), the rendered colour of the hand-driven twin with the hand mesh, rendered depth (near to far) and rendered surface normals. Bottom row: the dense global correspondences (canonical x, y, z mapped to RGB), the kernels drawn as ellipsoids (coloured by their canonical position), the prediction of the student model, and the student kernels. The hand is drawn transparent in every panel.</p>
+<div class="full"><video src="vid/grid_c24.mp4?v=3" controls loop muted preload="metadata" width="100%"></video></div>
+
+<h3>Dense global correspondences: shared canonical xyz space</h3>
+<p class="note">Left: input views (two of the eight cameras). Right: the reconstruction coloured by its position in the global canonical model (canonical x, y, z mapped to RGB). The same surface point has the same colour in every frame and every view, so the stick, lid, and body keep their colour while the hands move and deform the toy. Two held-out spoon sequences, half speed.</p>
+<div class="grid"><video src="vid/globalxyz_c24.mp4" controls loop muted preload="metadata" width="100%"></video><video src="vid/globalxyz_c10.mp4" controls loop muted preload="metadata" width="100%"></video></div>
+
+<h3>Feed-forward reconstruction and hands</h3>
+<p class="note">Top: input views. Bottom: object reconstructed by the feed-forward model (matcher, hand-conditioned decoder, joint solver) together with the solved hands (left blue, right orange).</p>
+<div class="grid"><video src="vid/hands_c9.mp4" controls loop muted preload="metadata" width="100%"></video><video src="vid/hands_c3.mp4" controls loop muted preload="metadata" width="100%"></video></div>
+<p class="note">Object-only feed-forward reconstruction compared with the input views (per-view PSNR shown in the video):</p>
+<video src="vid/ff_c7.mp4" controls loop muted preload="metadata" width="100%"></video>
+
+
+<h2>Contact</h2>
+<p class="note">Contact: zakourmarsil@gmail.com</p>
+</main><script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;
+ if(e.isIntersecting){v.play().catch(()=>{});}else v.pause();}),{threshold:.4});
+document.querySelectorAll("video").forEach(v=>{v.muted=true;v.loop=true;v.playsInline=true;io.observe(v);});
+</script>
+</body></html>

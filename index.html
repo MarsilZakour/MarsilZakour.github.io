@@ -37,6 +37,14 @@
   footer{padding:28px 0 56px;color:var(--muted);font-size:14px}
   @media(max-width:560px){.head{gap:16px}h1{font-size:25px}}
 </style>
+<style>
+.proj{margin:0 0 34px}.proj .t{font-weight:700}.proj .v{color:#5b6470;font-size:15px;margin:2px 0 10px}
+.proj .media{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
+.proj .media img,.proj .media video{width:100%;border:1px solid #e6e8eb;border-radius:10px;background:#000;display:block}
+.proj .media img{background:#fff}@media(max-width:680px){.proj .media{grid-template-columns:1fr}}
+.btns{margin-top:12px;display:flex;gap:10px}.btn{display:inline-block;border:1px solid #3070b3;color:#3070b3;padding:7px 16px;border-radius:999px;font-weight:600;font-size:14.5px}.btn:hover{text-decoration:none;background:#eef4fb}.btn.pri{background:#3070b3;color:#fff}.btn.pri:hover{background:#22527f}
+.proj .media video{cursor:pointer}
+</style>
 </head>
 <body>
 
@@ -52,7 +60,6 @@
           <a href="https://scholar.google.com/citations?user=WC_55Y0AAAAJ">Google Scholar</a>
           <a href="https://github.com/marcilzakour">GitHub</a>
           <a href="https://www.ce.cit.tum.de/en/lmt/team/mitarbeiter/zakour-marsil/">TUM page</a>
-          <a href="assets/cv.pdf">CV (PDF)</a>
         </nav>
       </div>
     </div>
@@ -65,10 +72,11 @@
     <p>I am a Ph.D. candidate at the Technical University of Munich working on 3D computer vision
       and machine learning. My research focuses on <b>4D hand–object interaction</b>:
       reconstructing hands and objects in 3D and over time from video, modelling contact, and
-      building the capture systems and datasets behind them. I am broadly interested in real-time perception,
-      differentiable optimization, and embodied AI.</p>
-    <p>Before my Ph.D., I competed at the ACM-ICPC World Finals and spent years coaching and
-      judging competitive-programming contests.</p>
+      building the multi-sensor capture systems, simulators and datasets behind them. I am broadly interested
+      in real-time perception, differentiable optimization, and embodied AI.</p>
+    <p>I have a background in <b>software engineering</b>, which shapes how I work: I design and build
+      complete systems, from sensor drivers, synchronization and calibration to real-time perception
+      pipelines and live demos. I also have a competitive-programming background, as a contestant, coach and judge.</p>
   </div>
 </section>
 
@@ -78,9 +86,8 @@
     <div class="pub">
       <div class="t">Learn 2D, Solve 3D: UA-Fit, an Uncertainty-Weighted Analytical Solver for Multi-view Hand Mesh Recovery</div>
       <div class="v">M. Zakour, C. Patsch, M. Piccolrovazzi, Y. Wu, E. Steinbach — ECCV 2026, HANDS Workshop</div>
-      <div class="l"><a href="https://marcilzakour.github.io/ua-fit/">project page</a> ·
-        <a href="https://github.com/marcilzakour/ua-fit-code">code</a> ·
-        <a href="https://github.com/marcilzakour/parafit">solver library (parafit)</a></div>
+      <div class="l"><a href="uafit/">project page</a> ·
+        <a href="uafit/paper/uafit_hands2026.pdf">paper</a></div>
     </div>
     <div class="pub">
       <div class="t">HOIsim: Synthesizing Realistic 3D Human–Object Interaction Data for Human Activity Recognition</div>
@@ -88,35 +95,48 @@
     </div>
     <p>15 peer-reviewed publications overall at venues including <b>ICCV, IROS, IEEE RA-L, ICASSP</b> —
       <a href="https://scholar.google.com/citations?user=WC_55Y0AAAAJ">full list on Google Scholar</a>.
-      Further work (a multi-view hand–object interaction dataset, a multi-expert fusion method)
+      Further work (the ADL4D dataset and the FuseFit fusion method, both shown under Projects)
       is under peer review and will be listed here on acceptance.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Software</h2>
-    <div class="pub">
-      <div class="t">parafit — a pluggable analytical solver for parametric model fitting</div>
-      <div class="v">Standalone open-source library: batched differentiable Levenberg–Marquardt with analytic Jacobians
-        (≈12–16× faster than autodiff) for hands, bodies, and 6-DoF objects.</div>
-      <div class="l"><a href="https://github.com/marcilzakour/parafit">github.com/marcilzakour/parafit</a></div>
-    </div>
+    <h2>Projects</h2>
+    <div class="proj"><div class="t"><a href="romeo/">ROMEO: Real-time Online Monocular Egocentric Hand Mesh Recovery in World Space</a></div><div class="v">Online egocentric hand mesh recovery in world space at 33 fps (pipeline alone), from a single head-mounted camera.</div>
+      <div class="media"><a href="romeo/"><img src="romeo/teaser.png" alt="teaser" loading="lazy"></a><video class="auto" muted loop playsinline preload="metadata" src="romeo/videos/hot3d/f10_P0011_good.mp4"></video></div><div class="media" style="grid-template-columns:1fr;margin-top:14px"><video class="auto" muted loop playsinline preload="metadata" src="romeo/videos/live_demo.mp4?v=9" style="max-width:600px;margin:0 auto"></video></div><div class="v" style="margin-top:6px"><i>Our own live deployment: a head-mounted camera streams to the online pipeline, which tracks both hands (MANO meshes) in world space as the camera moves, solved and visualised live (about 20 fps in this recording with the viewer and screen capture running on the same machine; 33 fps for the pipeline alone). <b>The model only receives RGB.</b> The depth point cloud is shown for visualisation and reference only.</i></div><div class="btns"><a class="btn pri" href="romeo/">View project &rarr;</a></div></div>
+    <div class="proj"><div class="t"><a href="plush_twin/">Hand-driven digital twins of deformable plush objects</a></div><div class="v">Dense global correspondences, a feed-forward hand-object model and hand-driven deformation. <i>Video: hand-driven deformation on a held-out clip (press with both hands, then release), all modalities. Input, then rendered colour with the hand mesh (transparent), depth, normals, dense global correspondences, kernel ellipsoids, and the student colour and kernels (every panel except the input is a rendering).</i></div>
+      <div class="media" style="grid-template-columns:1fr"><a href="plush_twin/"><img src="plush_twin/img/teaser.png" alt="teaser" loading="lazy"></a><video class="auto" muted loop playsinline preload="metadata" src="plush_twin/vid/grid_c12.mp4?v=3"></video></div><div class="btns"><a class="btn pri" href="plush_twin/">View project &rarr;</a></div></div>
+    <div class="proj"><div class="t"><a href="uafit/">UA-Fit: Learn 2D, Solve 3D (ECCV 2026 HANDS Workshop)</a></div><div class="v">Uncertainty-weighted analytical multi-view hand fitting.</div>
+      <div class="media"><a href="uafit/"><img src="uafit/static/images/fig_pipeline.png" alt="teaser" loading="lazy"></a><video class="auto" muted loop playsinline preload="metadata" src="uafit/static/videos/arctic.mp4"></video></div><div class="btns"><a class="btn pri" href="uafit/">View project &rarr;</a><a class="btn" href="uafit/paper/uafit_hands2026.pdf">Paper</a></div></div>
+    <div class="proj"><div class="t"><a href="fusefit/">FuseFit: Reliability-Aware Fusion of Frozen Hand Experts</a></div><div class="v">Fusing frozen multi-view hand predictors into one MANO mesh.</div>
+      <div class="media"><a href="fusefit/"><img src="fusefit/img/teaser.png" alt="teaser" loading="lazy"></a><video class="auto" muted loop playsinline preload="metadata" src="fusefit/videos/compare_HO3D_seq0.mp4"></video></div><div class="btns"><a class="btn pri" href="fusefit/">View project &rarr;</a></div></div>
+    <div class="proj"><div class="t"><a href="adl4d/">ADL4D: Towards A Contextually Rich Dataset for 4D Activities of Daily Living</a></div><div class="v">Multi-view RGB-D dataset of two-person dining activities with per-hand action segments, 3D hand poses and 6-DoF object poses.</div>
+      <div class="media"><a href="adl4d/"><img src="adl4d/img/teaser.jpg" alt="teaser" loading="lazy"></a><video class="auto" muted loop playsinline preload="metadata" src="adl4d/vid/blended_view.mp4"></video></div><div class="btns"><a class="btn pri" href="adl4d/">View project &rarr;</a></div></div>
+    <div class="proj"><div class="t"><a href="hoisim/">HOIsim: Synthesizing Realistic 3D Human&ndash;Object Interaction Data for Human Activity Recognition (RO-MAN 2021)</a></div><div class="v">Simulator for synthetic human&ndash;object interaction data for activity recognition.</div><div class="btns"><a class="btn pri" href="hoisim/">View project &rarr;</a></div></div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>Systems</h2>
+    <h2>Systems &amp; sensors</h2>
+    <p>I design and build complex multi-sensor systems, from hardware and drivers through synchronization, calibration and recording to live perception, behind the datasets and methods above. I work with both real sensors and synthetic data.</p>
+    <ul><li><b>Middleware and infrastructure</b> &mdash; ROS&nbsp;1 and ROS&nbsp;2 for multi-sensor, multi-machine capture, time synchronization, recording and replay, and real-time pipelines connecting sensors, perception and visualization.</li></ul>
+    <h3 style="font-size:16px;margin:18px 0 6px">Real sensing</h3>
     <ul>
-      <li><b>Real-time hand–object tracker</b> — live multi-view RGB 6-DoF hand and object tracking on a
-        single consumer GPU: detection → triangulation → optimization-in-the-loop.</li>
-      <li><b>Multi-view capture &amp; annotation pipeline</b> — 8-camera rig, 0.8 px calibration,
-        MANO-based auto-annotation with contact refinement; the data engine behind our dataset work.</li>
-      <li><b>HOIsim</b> — simulator generating realistic synthetic 3D human–object interaction data
-        for perception training and sim-to-real studies.</li>
+      <li><b>Multi-camera rigs</b> &mdash; synchronized multi-view RGB-D capture with RealSense cameras (RGB plus IR stereo at 30&nbsp;Hz), multi-machine ROS recording, ChArUco-based calibration at about 0.8&nbsp;px reprojection error, stereo depth and multi-view hand/object annotation on top.</li>
+      <li><b>Single-camera and egocentric setups</b> &mdash; real-time hand tracking from one head-mounted or tabletop RealSense D435i camera (RGB only as model input; the IMU accelerometer levels the world frame, and depth serves only for visualisation), plus egocentric benchmarks (HOT3D, ARCTIC) for online world-space hand mesh recovery.</li>
+      <li><b>Kinect and Azure Kinect</b> &mdash; depth sensing for body and hand capture, including time-of-flight depth from the Azure Kinect.</li>
+      <li><b>Leap Motion controller</b> &mdash; ~110&nbsp;Hz hand skeleton, evaluated as a low-latency anchor for interactive VR projects, and a CPU-only webcam tracker for comparison.</li>
+      <li><b>OptiTrack motion capture</b> &mdash; marker-based optical tracking for ground-truth 6-DoF object poses, combined with the multi-view RGB-D cameras for dataset annotation.</li>
     </ul>
-    <p class="note">Demo videos are available on request and linked from my CV.</p>
+    <h3 style="font-size:16px;margin:18px 0 6px">Synthetic data</h3>
+    <ul>
+      <li><b>Unity</b> &mdash; the engine behind my synthetic-data work: simulated 3D scenes with animated humans and objects, and interactive real-time (VR) applications.</li>
+      <li><b>HOIsim</b> &mdash; Unity-based simulator for realistic synthetic 3D human&ndash;object interaction data, for training and sim-to-real studies.</li>
+      <li><b>Unity Perception</b> &mdash; automatic ground-truth labelling (2D/3D boxes, segmentation, keypoints) and domain randomization of scenes, lighting and objects for synthetic datasets.</li>
+      <li><b>Rendered digital twins</b> &mdash; Gaussian-based reconstructions of real captures that can be re-rendered from new views and driven by new hand motion.</li>
+    </ul>
   </div>
 </section>
 
@@ -126,8 +146,18 @@
     <ul>
       <li><a href="https://www.ce.cit.tum.de/lmt/lehre/projektpraktikum-project-lab-human-activity-understanding/">Project
         Lab: Human Activity Understanding</a> — M.Sc. project course at TUM; supervising student teams
-        building live perception demos every semester since 2022.</li>
+        building live perception projects every semester since 2022.</li>
       <li>Supervision of B.Sc./M.Sc. theses and student research projects in computer vision and machine learning.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Other achievements and activities</h2>
+    <ul>
+      <li><b>SHOW3D Interaction-Field Challenge:</b> 2nd place at the HANDS workshop, ECCV 2026 (team TUM-LMT-Hands).</li>
+      <li><b>ACM-ICPC:</b> competed at the World Finals 2018 in Beijing, and spent years coaching and judging competitive-programming contests.</li>
     </ul>
   </div>
 </section>
@@ -138,5 +168,10 @@
   </div>
 </footer>
 
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;
+ if(e.isIntersecting){v.play().catch(()=>{});}else v.pause();}),{threshold:.4});
+document.querySelectorAll("video.auto").forEach(v=>{io.observe(v);v.addEventListener("click",()=>{v.controls=true;v.muted=false;});});
+</script>
 </body>
 </html>

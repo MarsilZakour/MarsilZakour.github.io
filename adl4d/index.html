@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ADL4D</title>
+<meta name="description" content="ADL4D: a multi-view RGB-D dataset for 4D activities of daily living"><style>
+  :root{
+    --ink:#1a1a1a; --muted:#5b6470; --line:#e6e8eb; --accent:#3070b3; --accent-d:#22527f;
+    --bg:#ffffff; --soft:#f6f8fa; --maxw:960px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-d);text-decoration:underline}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  header{padding:56px 0 30px;text-align:center;border-bottom:1px solid var(--line)}
+  h1{font-size:31px;line-height:1.25;margin:0 0 6px;font-weight:750;letter-spacing:-.01em}
+  h1 .sub{color:var(--accent);display:block;font-size:20px;font-weight:650;margin-top:8px}
+  .venue{color:var(--muted);font-size:15px;margin:14px 0 4px;font-weight:600}
+  .authors{margin:16px 0 4px;font-size:18px}
+  .authors a{color:var(--ink)}
+  .affil{color:var(--muted);font-size:15px;margin-top:6px}
+  .badges{margin:26px 0 6px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;
+    padding:9px 16px;border-radius:999px;font-size:15px;font-weight:600}
+  .badge:hover{background:#000;color:#fff;text-decoration:none}
+  .badge.alt{background:var(--accent)} .badge.alt:hover{background:var(--accent-d)}
+  .badge.disabled{background:#8b95a1;color:#eef1f4;cursor:default;pointer-events:none}
+  section{padding:40px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:23px;font-weight:720;margin:0 0 18px;letter-spacing:-.01em}
+  p{margin:0 0 16px}
+  figure{margin:22px 0;text-align:center}
+  figure img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px}
+  figcaption{color:var(--muted);font-size:14.5px;margin-top:10px;text-align:center}
+  .abstract p{text-align:justify}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .card video{width:100%;border-radius:10px;border:1px solid var(--line);display:block;background:#000}
+  .card p{color:var(--muted);font-size:14.5px;margin:9px 2px 0}
+  .full video{width:100%;border-radius:10px;border:1px solid var(--line);background:#000}
+  /* video carousel */
+  .carousel{position:relative;overflow:hidden;border-radius:10px}
+  .track{display:flex;transition:transform .45s ease}
+  .slide{min-width:100%;box-sizing:border-box}
+  .slide video{width:100%;display:block;background:#000;border:1px solid var(--line);border-radius:10px}
+  .slide p{color:var(--muted);font-size:15px;text-align:center;margin:10px 0 0;font-weight:600}
+  .nav{position:absolute;top:42%;transform:translateY(-50%);width:44px;height:44px;border:none;
+    border-radius:50%;background:rgba(0,0,0,.5);color:#fff;font-size:26px;line-height:44px;
+    text-align:center;cursor:pointer;z-index:2;padding:0;transition:background .2s}
+  .nav:hover{background:rgba(0,0,0,.8)}
+  .nav.prev{left:12px} .nav.next{right:12px}
+  .dots{display:flex;gap:9px;justify-content:center;margin-top:14px}
+  .dot{width:9px;height:9px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:background .2s}
+  .dot.active{background:var(--accent)}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:8px 0 6px}
+  .kpi{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+  .kpi b{display:block;font-size:26px;color:var(--accent-d);font-weight:760;letter-spacing:-.02em}
+  .kpi span{color:var(--muted);font-size:14px}
+  pre{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow:auto;font-size:13.5px;line-height:1.5}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  footer{padding:34px 0 60px;color:var(--muted);font-size:14px;text-align:center}
+  @media(max-width:680px){.grid,.kpis{grid-template-columns:1fr}h1{font-size:25px}}
+</style></head><body><header><div class="wrap"><h1>ADL4D: Towards A Contextually Rich Dataset for 4D Activities of Daily Living</h1>
+<div class="authors">Marsil Zakour et al.</div><div class="affil">Technical University of Munich</div>
+<div class="badges"><span class="badge disabled">Paper (under review)</span><span class="badge disabled">Data (coming soon)</span><a class="badge alt" href="https://adl4d.github.io">adl4d.github.io</a></div></div></header>
+<section><div class="wrap"><figure><img src="img/teaser.jpg" alt="ADL4D teaser"><figcaption>Multi-view RGB-D recordings (top), the reconstructed hands and objects (bottom), and the per-hand activity structure annotated over full sequences.</figcaption></figure></div></section>
+<section class="abstract"><div class="wrap"><h2>Abstract</h2><p>Understanding <i>hand-object interaction (HOI)</i> in daily activities requires structure over long horizons: objects are picked up, used, shared and released according to a plan, and concurrent hands serve different roles. Existing datasets for 4D HOI (3D HOI over time) record short, single-subject, single-object clips and cannot represent this structure. We introduce <b>ADL4D</b>, a multi-view RGB-D dataset in which up to two subjects use and share multiple objects during dining activities (1833 multi-view frames per sequence on average; 1.1M images in total), annotated by an automatic multi-view hand-tracking pipeline with marker-based object capture. ADL4D provides per-hand, frame-wise verb-noun action segments over full activities, together with 3D hand poses and 6-DoF poses for every object. Hand mesh recovery and hand-object reconstruction benchmarks show that ADL4D is challenging zero-shot yet effective for training. We focus on the two tasks these annotations enable: per-hand action segmentation, where conditioning on object geometry yields large gains, and object-pose forecasting from hand motion alone, where the recovered action segments improve prediction.</p></div></section>
+<section><div class="wrap"><h2>Videos</h2><div class="full card"><video controls preload="metadata" muted loop playsinline src="vid/blended_view.mp4"></video><p>Annotation overlaid on one camera view.</p></div><br>
+<div class="grid"><div class="card"><video controls preload="metadata" muted loop playsinline src="vid/actions_seq3.mp4"></video><p>Sample sequence with per-hand verb-noun action labels.</p></div><div class="card"><video controls preload="metadata" muted loop playsinline src="vid/actions_seq4.mp4"></video><p>A second sample sequence with action labels.</p></div></div></div></section>
+<footer><div class="wrap">Official project site: <a href="https://adl4d.github.io">adl4d.github.io</a></div></footer></body></html>

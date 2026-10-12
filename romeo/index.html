@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>ROMEO: Real-time Online Monocular Egocentric Hand Mesh Recovery in World Space</title>
+<style>
+body{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:#1b1b1b;margin:0;line-height:1.55;background:#fff}
+main{max-width:980px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:2.1rem;line-height:1.2;text-align:center;margin:0 0 .3em}
+.sub{text-align:center;color:#555;margin-bottom:1.6em}
+h2{font-size:1.3rem;border-bottom:1px solid #ddd;padding-bottom:.2em;margin-top:2em}
+figure{margin:1.5em 0}figure img{width:100%}
+figcaption{font-size:.92rem;color:#444;margin-top:.5em}
+p.abs{text-align:justify}
+table{border-collapse:collapse;margin:1em auto;font-size:.95rem}
+th,td{padding:.35em .8em;text-align:center}
+thead th{border-top:2px solid #222;border-bottom:1px solid #222}
+tbody tr:last-child td{border-bottom:2px solid #222}
+td:first-child,th:first-child{text-align:left}
+.note{font-size:.85rem;color:#555}
+.badge{display:inline-block;background:#fff0d6;border:1px solid #e0b660;border-radius:4px;padding:.1em .6em;font-size:.8rem}
+.vids{display:grid;grid-template-columns:1fr;gap:1.2em}.vids video{width:100%;background:#fff;border:1px solid #ddd}
+</style></head><body><main>
+<h1>ROMEO: Real-time Online Monocular Egocentric Hand Mesh Recovery in World Space</h1>
+<div class="sub">Marsil Zakour &middot; Constantin Patsch &middot; Martin Piccolrovazzi &middot; Yuankai Wu &middot; Eckehard Steinbach<br>Technical University of Munich<br>
+<span class="badge">Preprint, not yet submitted. Private link, please do not share.</span></div>
+
+<figure><img src="teaser.png" alt="Pipeline overview">
+<figcaption><b>Overview.</b> Rounded boxes are neural networks, hatched square boxes are optimisation modules. A patch router, a small classifier on the visual-odometry features, sorts the image patches into static scene and dynamic content, the interaction object (here the held keyboard) and the human (hands and arms); only the static patches enter the visual SLAM, and a depth head on the same features gives it a metric prior, so the camera path is metric. A sliding-window solver fuses this camera with the per-frame hand estimates into world-space meshes at 33 frames per second on an RTX 3090, while offline pipelines such as HaWoR run at 4 frames per second.</figcaption></figure>
+
+<h2>Abstract</h2>
+<p class="abs">Head-mounted cameras see our hands from our own point of view, which makes them a natural input for augmented reality, assistive systems and robots that learn from people. These applications need the 3D motion of both hands in a fixed world frame, and they need it while the video is being recorded. Current methods that recover hands in world coordinates from egocentric video are offline: they reconstruct the camera path over the whole recording, fix its metric scale once, and smooth the hands with future frames. Real-time hand trackers, in turn, report hands relative to the moving camera or headset, or take world coordinates from the known poses of calibrated headset cameras. We present ROMEO, an online method that recovers both hands as parametric MANO meshes in world coordinates from a single moving monocular RGB stream in real time. It combines two per-frame cues that are cheap to compute. A patch-based visual odometry gives the camera path, and the depth at its patches on the static scene, with the patches on the hands left out, gives the metric scale. A per-frame regressor gives 3D hand estimates, which a sliding-window Levenberg&ndash;Marquardt solver fuses over recent frames with smoothness, joint-limit and hand&ndash;hand constraints. Every frame receives a provisional result at once and a final one a few frames later. On HOT3D, ROMEO runs causally at 33 frames per second on a single consumer GPU (RTX 3090), about eight times the speed of the offline HaWoR, with lower articulation, world-space and smoothness error.</p>
+
+<h2>Live deployment</h2>
+<p class="note">Our own live demo: a head-mounted camera streams to the online pipeline, which recovers both hands in world space in real time while the camera moves. The 3D view (re-rendered from the recorded live run) shows the recovered MANO hand meshes, the current depth frame and the camera; the inset is the live camera view with the MANO mesh overlay. The poses were solved and visualised live during the capture, with the 3D viewer, the point-cloud rendering and the screen recording running on the same machine, which lowers the frame rate to about 20 fps in this recording; the pipeline alone runs at 33 fps (measured separately). <b>The model only receives the RGB image.</b> The RealSense depth point cloud in the 3D view is for visualisation and reference only; it is never fed to the model.</p>
+<figure><video controls preload="metadata" muted loop playsinline src="videos/live_demo.mp4?v=9" style="max-width:800px"></video><figcaption><b>Live demo</b> (re-rendered from a recorded live run).</figcaption></figure>
+
+<h2>Qualitative comparison</h2>
+<p>Each video shows the ground truth, our strictly causal output (no look-ahead) and the offline HaWoR on the same recording, played at the recording rate; hand entries are replayed in slow motion. Meshes are drawn in each method&rsquo;s own camera, the lower row shows the world-space trajectory and the live error. The last video is a failure case, shown on purpose.</p>
+<div class="vids">
+<figure><video controls preload="metadata" muted loop playsinline src="videos/hot3d/f10_P0011_good.mp4"></video><figcaption><b>HOT3D, recording P0011.</b> GT | ROMEO (online) | HaWoR (offline)</figcaption></figure>
+<figure><video controls preload="metadata" muted loop playsinline src="videos/hot3d/f10_P0012_good.mp4"></video><figcaption><b>HOT3D, recording P0012.</b> GT | ROMEO (online) | HaWoR (offline)</figcaption></figure>
+<figure><video controls preload="metadata" muted loop playsinline src="videos/hot3d/f10_P0014_good.mp4"></video><figcaption><b>HOT3D, recording P0014, two hands with several entries.</b> GT | ROMEO (online) | HaWoR (offline)</figcaption></figure>
+<figure><video controls preload="metadata" muted loop playsinline src="videos/arctic/good1_capsulemachine_use_01.mp4"></video><figcaption><b>ARCTIC egocentric, capsule machine.</b> GT | ROMEO (online) | HaWoR (offline, skeleton)</figcaption></figure>
+<figure><video controls preload="metadata" muted loop playsinline src="videos/arctic/good2_laptop_use_02.mp4"></video><figcaption><b>ARCTIC egocentric, laptop.</b> GT | ROMEO (online) | HaWoR (offline, skeleton)</figcaption></figure>
+<figure><video controls preload="metadata" muted loop playsinline src="videos/hot3d/f10_P0014_failure.mp4"></video><figcaption><b>Failure case: HOT3D P0014, wrist rotation errors when a hand enters the image.</b> GT | ROMEO (online) | HaWoR (offline)</figcaption></figure>
+</div>
+<h2>Swapping the hand model at inference time (MANO to Momentum)</h2>
+<p>No retraining: only the parametric hand model used inside the solver changes. The Momentum Human Rig (MHR) hand replaces MANO and is fitted per frame, causally (identity estimated on the first 30 frames, then frozen), to the same per-frame joint evidence, using an approximate OpenPose-21 to MHR joint correspondence (wrist, and per finger MCP/PIP/DIP/tip mapped to the matching MHR finger joints; the correspondence is approximate, joint definitions differ).</p>
+<div class="vids">
+<figure><video controls preload="metadata" muted loop playsinline src="videos/mhr/mhr_swap_overlay.mp4"></video><figcaption><b>HOT3D P0014, 450 frames, image overlay.</b> Left: MANO (default). Right: MHR swapped in.</figcaption></figure>
+<figure><video controls preload="metadata" muted loop playsinline src="videos/mhr/mhr_swap_world.mp4"></video><figcaption><b>Same clip, world view</b> with camera path and wrist trajectories.</figcaption></figure>
+</div>
+<p><b>Evidence (HOT3D P0014, 450 frames, 21 joints).</b> MHR vs MANO joint agreement: 5.2 mm absolute, 6.1 mm root-relative, 3.9 mm Procrustes-aligned (median 4.9 mm, 95th percentile 8.4 mm). Against HOT3D ground truth, MANO / MHR: absolute 15.9 / 17.0 mm, root-relative 10.3 / 12.0 mm, Procrustes-aligned 4.6 / 6.0 mm. MHR is therefore usable but about 1 to 1.5 mm worse than MANO here, consistent with the approximate joint mapping. Single clip, single run; this shows feasibility, not a benchmark result. The fit runs at about 55 ms per frame for two hands on CPU.</p>
+
+<h2>Results on HOT3D (online protocol)</h2>
+<table>
+<thead><tr><th>Method</th><th>Online</th><th>PA-MPJPE&nbsp;&darr;</th><th>W-MPJPE&nbsp;&darr;</th><th>WA-MPJPE&nbsp;&darr;</th><th>RTE&nbsp;&darr;</th><th>Accel&nbsp;&darr;</th><th>W-MPJPE (B)&nbsp;&darr;</th><th>fps&nbsp;&uarr;</th></tr></thead>
+<tbody>
+<tr><td>HaWoR (offline reference)</td><td>no</td><td>5.84</td><td>53.5</td><td>18.6</td><td>1.79</td><td>8.0</td><td>41.6</td><td>3.3</td></tr>
+<tr><td><b>ROMEO (ours)</b></td><td>yes</td><td><b>4.63</b></td><td><b>41.5</b></td><td><b>12.9</b></td><td><b>0.98</b></td><td><b>6.9</b></td><td><b>34.5</b></td><td><b>33</b></td></tr>
+</tbody></table>
+<p class="note">HOT3D egocentric validation, 25 clean recordings, right hand, automatic hand detector (same detector for both methods), mean of 3 seeds for ROMEO (W std 0.4 mm). Errors in mm, RTE in %, Accel in m/s&sup2;. PA: Procrustes-aligned; W/WA: world-space errors under the HaWoR protocol. Main columns count every frame with a ground-truth hand (missed detections count as errors); column (B) uses only the frames on which HaWoR's detector fires, as in HaWoR's own evaluation. fps: both on a single RTX 3090; HaWoR is the official offline pipeline (detection and tracking, hand regressor, masked SLAM with metric depth, motion infiller), end to end per frame (about 300 ms), mean of two HOT3D recordings. Preliminary numbers.</p>
+</main></body></html>
